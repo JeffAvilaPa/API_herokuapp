@@ -1,0 +1,15 @@
+{
+  "name": "postman-api-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  "api-test": "newman run collections/Restful_Booker_API.postman_collection.json -e environments/Local_Dev.postman_environment.json --reporters cli,html --reporter-html-export reports/report.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "newman": "^6.2.1"
+  }
+}
