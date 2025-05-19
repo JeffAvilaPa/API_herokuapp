@@ -2,13 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS_20' // Asegurate de tener configurado este nombre en "Global Tool Configuration"
-    }
-
-    environment {
-        COLLECTION = 'collections/Restful_Booker_API.postman_collection.json'
-        ENVIRONMENT = 'environments/Local_Dev.postman_environment.json'
-        REPORT = 'reports/report.html'
+        nodejs "NodeJS 20" // asegúrate que este nombre coincida con la instalación configurada en Jenkins
     }
 
     stages {
@@ -20,20 +14,8 @@ pipeline {
 
         stage('Run API Tests') {
             steps {
-                sh 'npx newman run $COLLECTION -e $ENVIRONMENT --reporters cli,html --reporter-html-export $REPORT'
-            }
-        }
-
-        stage('Publish Report') {
-            steps {
-                publishHTML(target: [
-                    reportName : 'Newman API Report',
-                    reportDir  : 'reports',
-                    reportFiles: 'report.html',
-                    keepAll    : true,
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: false
-                ])
+                sh 'mkdir -p reports' // crea carpeta si no existe
+                sh 'npm run api-test'
             }
         }
     }
@@ -41,6 +23,11 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'reports/*.html', fingerprint: true
+            publishHTML([
+                reportDir: 'reports',
+                reportFiles: 'report.html',
+                reportName: 'Newman API Report'
+            ])
         }
     }
 }
