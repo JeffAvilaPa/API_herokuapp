@@ -21,14 +21,18 @@ pipeline {
     }
 
     post {
-        always {
-            archiveArtifacts artifacts: 'reports/*.html', fingerprint: true
-            publishHTML([
-                reportDir: 'reports',
-                reportFiles: 'report.html',
-                reportName: 'Newman API Report'
-            ])
-        }
+    always {
+        archiveArtifacts artifacts: 'reports/*.html', fingerprint: true
+        publishHTML([
+            reportDir: 'reports',
+            reportFiles: 'report.html',
+            reportName: 'Newman API Report',
+            keepAll: true,
+            alwaysLinkToLastBuild: true,
+            allowMissing: false
+        ])
     }
+}
+
 }
 
