@@ -14,7 +14,8 @@ pipeline {
 
         stage('Run API Tests') {
             steps {
-                sh 'mkdir -p reports' // crea carpeta si no existe
+                sh 'mkdir -p reports'
+                sh 'npm install'
                 sh 'npm run api-test'
             }
         }
